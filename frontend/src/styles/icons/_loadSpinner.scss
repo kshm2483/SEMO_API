@@ -88,10 +88,16 @@
   &-detail {
     position: absolute;
     top: 400px;
-    right: 650px;
+    right: 1200px;
+    z-index: 3;
+  }
+
+  &-parmas{
+    position: absolute;
+    top: 800px;
+    right: 600px;
   }
 }
-
 .lds-box {
   background: rgba(49, 49, 49, 0.5);
   mix-blend-mode: darken;
