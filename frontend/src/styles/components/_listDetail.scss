@@ -29,13 +29,13 @@
   box-shadow: var(--shadow-sm);
   border-radius: var(--space-md);
 
-  min-height: 30%;
+  min-height: 25%;
   width: 91%;
   &-guide {
     min-height: 40%;
   }
   &-tall {
-    min-height: 43%;
+    min-height: 50%;
   }
 }
 
