@@ -24,7 +24,7 @@
         <APIDetailMiddle/>
       </div>
 
-      <div class="listDetail listDetail-guide">
+      <div class="listDetail listDetail-tall">
         <APIDetailBottom/>
       </div>
 

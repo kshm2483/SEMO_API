@@ -86,6 +86,7 @@ export default {
       this.loadSpinner = true
       setTimeout(() => {
         this.loadSpinner = false
+        this.$router.push({name:"Category"})
       }, 1500)
     }
   }
