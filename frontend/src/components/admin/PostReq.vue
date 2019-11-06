@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import moment from "moment"
 
 export default {
@@ -56,6 +57,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      api: 'getNewApi'
+    }),
     pageCount () {
       let listLeng = this.posts.length, listSize = this.pageSize, page = Math.floor((listLeng - 1) / listSize) + 1
       return page
@@ -64,6 +68,9 @@ export default {
       const start = this.pageNum * this.pageSize, end = start + this.pageSize;
       return this.posts.slice(start, end)
     }
+  },
+  mounted() {
+    this.posts = this.setApi()
   },
   methods: {
     paginationBtn (bool) {
@@ -97,10 +104,21 @@ export default {
       if (bool) {
         this.posts = []
       } else {
-        this.$store.commit('setNewApi', this.posts[0])
-        this.posts = []
+        this.posts[0].edit = '수락'
+        this.$store.commit('reApi')
+        this.$store.commit('resetAddApi')
       }
-    }
+    },
+    setApi() {
+      const apis = this.api.map( d => ({
+        id: d.id,
+        title: d.title,
+        date: d.date,
+        category: d.tags[0],
+        edit: d.edit
+      }))
+      return apis
+    },
   }
 }
 </script>

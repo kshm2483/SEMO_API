@@ -56,6 +56,12 @@ export default {
     ...mapGetters({
       apiList: 'getApiLists'
     }),
+    ...mapGetters({
+      apiSwitch: 'getSwitch'
+    }),
+    ...mapGetters({
+      reApis: 'getreApiList'
+    }),
     pageCount () {
       let listLeng = this.posts.length, listSize = this.pageSize, page = Math.floor((listLeng - 1) / listSize) + 1
       return page
@@ -66,7 +72,11 @@ export default {
     },
   },
   mounted() {
-    this.posts = this.setApi()
+    if ( this.apiSwitch ) {
+      this.posts = this.setNewApi()
+    } else {
+      this.posts = this.setApi()
+    }
   },
   methods: {
     paginationBtn (bool) {
@@ -100,17 +110,24 @@ export default {
       const apis = this.apiList.map( d => ({
         id: d.id,
         title: d.title,
-        date: '191105',
+        date: d.date,
         category: d.tags[0],
         edit: '수락'
       }))
       apis.sort((a, b) => { return b.id - a.id })
       return apis
     },
-    test() {
-      console.log({ id: 41, title: '대중교통 API', date: '191020', category: '대중교통', edit: "수락" })
-    },
-
+    setNewApi() {
+      const apis = this.reApis.map( d => ({
+        id: d.id,
+        title: d.title,
+        date: d.date,
+        category: d.tags[0],
+        edit: '수락'
+      }))
+      apis.sort((a, b) => { return b.id - a.id })
+      return apis
+    }
   }
 }
 </script>
