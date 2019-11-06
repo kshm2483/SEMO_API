@@ -1,8 +1,11 @@
 <template>
 <div>
     <div class="test">
-      <h1>Admin Post <span class="test-subtext">{{ posts.length }} 개의 api</span></h1>
-      <router-link :to="{ name: 'APIWrite' }" class="btn btn--success btn--xl">API 추가</router-link>
+      <h1>API add request</h1>
+      <div>
+        <span class="btn btn--success btn--xl" @click="dinedAPI(false)">API 수락</span>
+        <span class="btn btn--danger btn--xl" @click="dinedAPI(true)">API 거절</span>
+      </div>
     </div>
   <table>
     <thead>
@@ -31,11 +34,10 @@
 
 <script>
 import { mapGetters } from "vuex"
-
-import router from '@/router'
+import moment from "moment"
 
 export default {
-  name: 'PostList',
+  name: 'PostReq',
   props: {
     pageSize: {
       type: Number,
@@ -49,18 +51,14 @@ export default {
       pageNum: 0,
       checkedPost: [],
       allSelect: false,
-      posts: []
+      posts: [
+        { id: 41, title: '등록테스트', date: moment(new Date()).format('YYMMDD'), category: '공공데이터', edit: "요청대기중" },
+      ]
     }
   },
   computed: {
     ...mapGetters({
-      apiList: 'getApiLists'
-    }),
-    ...mapGetters({
-      apiSwitch: 'getSwitch'
-    }),
-    ...mapGetters({
-      reApis: 'getreApiList'
+      api: 'getNewApi'
     }),
     pageCount () {
       let listLeng = this.posts.length, listSize = this.pageSize, page = Math.floor((listLeng - 1) / listSize) + 1
@@ -69,14 +67,10 @@ export default {
     paginatedData () {
       const start = this.pageNum * this.pageSize, end = start + this.pageSize;
       return this.posts.slice(start, end)
-    },
+    }
   },
   mounted() {
-    if ( this.apiSwitch ) {
-      this.posts = this.setNewApi()
-    } else {
-      this.posts = this.setApi()
-    }
+    this.posts = this.setApi()
   },
   methods: {
     paginationBtn (bool) {
@@ -106,28 +100,25 @@ export default {
         this.allSelect = false
       }
     },
+    dinedAPI(bool) {
+      if (bool) {
+        this.posts = []
+      } else {
+        this.posts[0].edit = '수락'
+        this.$store.commit('reApi')
+        this.$store.commit('resetAddApi')
+      }
+    },
     setApi() {
-      const apis = this.apiList.map( d => ({
+      const apis = this.api.map( d => ({
         id: d.id,
         title: d.title,
         date: d.date,
         category: d.tags[0],
-        edit: '수락'
+        edit: d.edit
       }))
-      apis.sort((a, b) => { return b.id - a.id })
       return apis
     },
-    setNewApi() {
-      const apis = this.reApis.map( d => ({
-        id: d.id,
-        title: d.title,
-        date: d.date,
-        category: d.tags[0],
-        edit: '수락'
-      }))
-      apis.sort((a, b) => { return b.id - a.id })
-      return apis
-    }
   }
 }
 </script>
@@ -154,9 +145,5 @@ th, tr {
     color: $primary;
     border-bottom: 1px solid $primary;
   }
-}
-.test-subtext {
-  font-size: 16px;
-  color: gray;
 }
 </style>

@@ -11,49 +11,38 @@
 
   <div class="apiDetail">
     <div class="listDetail-content">
-
       <div v-show="loadSpinner" class="lds-detail">
         <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
       </div>
-
       <div class="listDetail">
-        <APIDetailTop/>
+        <fa-icon icon="times" @click="goList" style="z-index: 2;"></fa-icon>
+        <APIDetailTopT/>
       </div>
-
       <div class="listDetail">
-        <APIDetailMiddle/>
+        <APIDetailMiddleT/>
       </div>
-
-      <div class="listDetail listDetail-tall">
-        <APIDetailBottom/>
-      </div>
-
     </div>
     <div class="listDetail-ad">
+      <!-- <div v-for="item in apiRecommend" :key="item">
+        <APIListCard/>
+      </div> -->
     </div>
   </div>
-  <div>
-    <div class="btn btn-save btn-save-2 btn--primary" @click="goList">
-      <fa-icon icon="angle-left" style="z-index: 2;"></fa-icon>
-    </div>
   </div>
-</div>
 </template>
 
 <script>
-import APIDetailTop from './APIDetailTop'
-import APIDetailMiddle from './APIDetailMiddle'
-import APIDetailBottom from './APIDetailBottom'
+import APIDetailTopT from '@/components/category/DetailT/APIDetailTopT'
+import APIDetailMiddleT from '@/components/category/DetailT/APIDetailMiddleT'
 
-import APIListCard from './APIListCard'
+import APIListCard from '../APIListCard'
 import Sidebar from "@/components/sidebar"
 
 export default {
-  name: 'APIDetail',
+  name: 'APIDetailT',
   components: {
-    APIDetailTop,
-    APIDetailMiddle,
-    APIDetailBottom,
+    APIDetailTopT,
+    APIDetailMiddleT,
     APIListCard,
     Sidebar
   },
@@ -101,18 +90,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.btn {
-  &-save {
-    position: fixed;
-    bottom: 50px;
-    right: 75px;
-    font-size: 50px;
-    &-1 {
-      right: 150px;
-    }
-    &-2 {
-      width: 42px;
-    }
-  }
+.listDetail {
+  height: 55%;
 }
 </style>
