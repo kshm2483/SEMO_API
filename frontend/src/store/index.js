@@ -10,6 +10,8 @@ export default new Vuex.Store({
       userData : {},
       postData : false,
       ApiLists: [],
+      reApiList: [],
+      addApi: [],
     },
     mutations,
     getters,

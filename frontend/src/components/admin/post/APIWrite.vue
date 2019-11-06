@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import moment from "moment"
 import Sidebar from "@/components/sidebar"
 
 import APIDetailTop from './APIDetailTop'
@@ -71,6 +72,7 @@ export default {
         {name: 'Parameters', id:6},
         {name: 'Responses', id:7},
       ],
+      newApi: { id: 41, title: '등록테스트', fillterid: 1, img:require('@/assets/seoul.png'), tags: ["공공데이터","movie","무료"], edit: "요청대기중", date: moment(new Date()).format('YYMMDD')}
     }
   },
   mounted() {
@@ -84,6 +86,7 @@ export default {
     },
     load_save() {
       this.loadSpinner = true
+      this.$store.commit('setAddApi', this.newApi)
       setTimeout(() => {
         this.loadSpinner = false
         this.$router.push({name:"Category"})

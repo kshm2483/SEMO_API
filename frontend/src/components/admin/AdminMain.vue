@@ -95,9 +95,7 @@ export default {
       ],
       tableName: ['API ID', '제목', '등록일자', '카테고리', '수정요청'],
       posts: [],
-      addPost: [
-        { id: 41, title: '등록테스트', date: moment(new Date()).format('YYMMDD'), category: '공공데이터', edit: "요청대기중" },
-      ],
+      addPost: [],
       userActive: [
         { id: 'user1', activity: 'create api', date: '191029'},
         { id: 'user2', activity: 'create api', date: '191030'},
@@ -112,9 +110,23 @@ export default {
     ...mapGetters({
       apiList: 'getApiLists'
     }),
+    ...mapGetters({
+      apiAddPost: 'getNewApi'
+    }),
+    ...mapGetters({
+      apiSwitch: 'getSwitch'
+    }),
+    ...mapGetters({
+      reapiList: 'getreApiList'
+    }),
   },
   mounted() {
-    this.posts = this.setApi()
+    if (this.apiSwitch) {
+      this.posts = this.setNewApi()
+    } else {
+      this.posts = this.setApi()
+    }
+    this.addPost = this.setAddApi()
     this.userActive.sort(( a, b ) => { return b.date - a.date })
     this.dataCnt[1].count = this.addPost.length
   },
@@ -137,6 +149,27 @@ export default {
       apis.sort((a, b) => { return a.id - b.id })
       return apis.slice(apis.length-5, apis.length).reverse()
     },
+    setNewApi() {
+      const apis = this.reapiList.map( d => ({
+        id: d.id,
+        title: d.title,
+        date: d.date,
+        category: d.tags[0],
+        edit: '수락'
+      }))
+      apis.sort((a, b) => { return a.id - b.id })
+      return apis.slice(apis.length-5, apis.length).reverse()
+    },
+    setAddApi() {
+      const apis = this.apiAddPost.map( d => ({
+        id: d.id,
+        title: d.title,
+        date: d.date,
+        category: d.tags[0],
+        edit: d.edit
+      }))
+      return apis
+    }
   }
 }
 </script>
