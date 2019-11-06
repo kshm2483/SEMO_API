@@ -2,7 +2,7 @@ from backend.settings.base import *
 import os, json
 
 DEBUG = False
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['52.79.124.122']
 
 secret_file = '/etc/secret.json'
 
